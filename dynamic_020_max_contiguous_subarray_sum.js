@@ -1,17 +1,30 @@
-let arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
-let total = 0;
+/**
+ * @param {Array<number>} nums
+ * @return {number}
+ */
+const maxContiguousSubarraySum = (nums) => {
+  var arr = [...nums];
+  var max_arr = [...Array(arr.length)].map(() => 0);
+  var total = 0;
+  var i;
 
-for (let i = 0; i < arr.length; i++) {
-  if (i == 0) {
-    total = arr[i];
-    continue;
+  for (i = 0; i < arr.length; i++) {
+    if (i == 0) {
+      total = arr[i];
+      max_arr[i] = total;
+      continue;
+    }
+
+    if (total + arr[i] > arr[i]) {
+      total = total + arr[i];
+    } else {
+      total = arr[i];
+    }
+
+    max_arr[i] = total;
   }
 
-  if (total + arr[i] > arr[i]) {
-    total = total + arr[i];
-  } else {
-    total = arr[i];
-  }
-}
+  var max_sum = max_arr.reduce((a, b) => Math.max(a, b), -Infinity);
 
-console.log(total);
+  return max_sum;
+};
