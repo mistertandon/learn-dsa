@@ -51,6 +51,8 @@ for (let i = 0; i < expr_str.length; i++) {
     result_encoding[i] = result_encoding[i - 1].map(
       (en) => `${en}${current_mapping}`
     );
+  } else {
+    result_encoding[i] = [];
   }
 
   let prev_curr_mapping_old = `${expr_str[i - 1]}${expr_str[i]}`;
