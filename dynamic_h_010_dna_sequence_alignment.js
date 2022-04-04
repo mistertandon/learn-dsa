@@ -38,6 +38,8 @@ const alignmentCosts = {
  * @return {number}
  */
 const minCostAlignment = (s1, s2) => {
+  console.log(`S1 - ${s1}`);
+  console.log(`S2 - ${s2}`);
   let _s1 = `${HYPHEN}${s1}`;
   let _s2 = `${HYPHEN}${s2}`;
 
@@ -47,10 +49,39 @@ const minCostAlignment = (s1, s2) => {
   console.log(`rows - ${rows}`);
   console.log(`cols - ${cols}`);
 
-  let mtx = [...Array(rows)].map(() => "");
+  let mtx = [...Array(rows)].map(() => 0);
 
   for (let i = 0; i < rows; i++) {
-    mtx[i] = [...Array(cols)].map(() => "");
+    mtx[i] = [...Array(cols)].map(() => 0);
+    for (let j = 0; j < cols; j++) {
+      if (i == 0) {
+        mtx[i][j] = j;
+        continue;
+      }
+
+      if (j == 0) {
+        mtx[i][j] = i;
+        continue;
+      }
+
+      if (s1[i] == s2[j]) {
+        mtx[i][j] = mtx[i - 1][j - 1];
+        continue;
+      }
+
+      let prevAlignCost = mtx[i - 1][j - 1];
+      let unmatchCost = alignmentCosts[`${s1[i]}${s2[j]}`] + prevAlignCost;
+
+      let gap_s1 = 1 + mtx[i - 1][j];
+      let gap_s2 = 1 + mtx[i][j - 1];
+
+      let min_cost = Math.min(
+        parseInt(unmatchCost),
+        parseInt(gap_s1),
+        parseInt(gap_s2)
+      );
+      mtx[i][j] = min_cost;
+    }
   }
   console.log(mtx);
 };
