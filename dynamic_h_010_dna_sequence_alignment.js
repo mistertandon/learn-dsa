@@ -64,13 +64,13 @@ const minCostAlignment = (s1, s2) => {
         continue;
       }
 
-      if (s1[i] == s2[j]) {
+      if (_s1[i] == _s2[j]) {
         mtx[i][j] = mtx[i - 1][j - 1];
         continue;
       }
 
       let prevAlignCost = mtx[i - 1][j - 1];
-      let unmatchCost = alignmentCosts[`${s1[i]}${s2[j]}`] + prevAlignCost;
+      let unmatchCost = alignmentCosts[`${_s1[i]}${_s2[j]}`] + prevAlignCost;
 
       let gap_s1 = 1 + mtx[i - 1][j];
       let gap_s2 = 1 + mtx[i][j - 1];
