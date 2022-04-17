@@ -10,10 +10,20 @@ const countValidExpressions = (nums) => {
 
   for (let sign = 0; sign < signs.length; sign++) {
     for (let elem = 0; elem < elems.length; elem++) {
-      let next_idx = elem + 1;
+      let elems_mod;
 
-      if (next_idx < elems.length) {
-        let arr_for_future = nums.slice(next_idx);
+      if (elem == 0) {
+        elems_mod = [...elems];
+      } else {
+        elems_mod = [
+          elems[elem],
+          ...elems.slice(0, elem),
+          ...elems.slice(elem + 1),
+        ];
+      }
+
+      if (elems_mod.length > 1) {
+        let arr_for_future = elems_mod.slice(1);
         let arr_from_future = countValidExpressions(arr_for_future);
 
         combination[JSON.stringify(arr_for_future)] = [...arr_from_future];
@@ -34,4 +44,5 @@ const countValidExpressions = (nums) => {
 let nums = [2, 3, 4];
 let target = 9;
 let signs = ["+", "-"];
-countValidExpressions(nums);
+let mine = countValidExpressions(nums);
+console.log(mine);
