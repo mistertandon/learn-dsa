@@ -1,28 +1,36 @@
-/**
- * @param {Array<number>} inputSet
- * @return {Array<Array<number>>}
- */
+const computePowerset = (inputSet, level) => {
+  let power_set = [];
+  for (let i = 0; i < inputSet.length - level; i++) {
+    let initial_set = [inputSet[i]];
+    let remaining_set = [];
+    for (let j = i; j < inputSet.length - level; j++) {
+      let lower_limit = j + 1;
+      let upper_limit = j + 1 + level;
+
+      if (upper_limit > lower_limit) {
+        remaining_set.push([
+          ...initial_set,
+          ...inputSet.slice(lower_limit, upper_limit),
+        ]);
+      }
+    }
+
+    power_set.push([initial_set, ...remaining_set]);
+  }
+  return power_set;
+};
+
 const powerset = (inputSet) => {
   let power_set = [];
-  let sub_set = inputSet.slice(1);
+  let level = 0;
+  let arr_from_future;
 
-  for (let i = 0; i < inputSet.length; i++) {
-    if (i == 0) {
-      inputSet.length === 1
-        ? power_set.push([...inputSet], [])
-        : power_set.push([...inputSet], [inputSet[i]]);
-      continue;
+  for (let i = 0; i <= inputSet.length; i++) {
+    arr_from_future = computePowerset(inputSet, level);
+    if (Array.isArray(arr_from_future) && arr_from_future.length > 0) {
+      power_set = power_set.concat(arr_from_future);
     }
-    if (inputSet.length === 2) break;
-    power_set.push([inputSet[0], inputSet[i]]);
-  }
-
-  if (sub_set.length > 0) {
-    let sub_set_from_future = [];
-    sub_set_from_future = powerset(sub_set);
-    if (sub_set_from_future.length > 0) {
-      power_set = power_set.concat(sub_set_from_future);
-    }
+    level++;
   }
 
   return power_set;
